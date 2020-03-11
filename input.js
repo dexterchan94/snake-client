@@ -1,28 +1,39 @@
 let connection;
 
-const handleUserInput = (key) => {
+let intervalId;
+let lastMove;
 
+function sendDelayedCommand(direction) {
+  if(!(direction === "up" && lastMove === "down") && !(direction === "left" && lastMove === "right") && !(direction === "right" && lastMove === "left") && !(direction === "down" && lastMove === "up")) {
+    clearInterval(intervalId);
+    lastMove = direction;
+    intervalId = setInterval(() => {
+      connection.write(`Move: ${direction}`);
+    }, 50);
+  }
+}
+
+const handleUserInput = (key) => {
+  
   if (key === 'w') {
-      connection.write("Move: up");
+    sendDelayedCommand("up");
   }
 
   if (key === 'a') {
-      connection.write("Move: left");
+    sendDelayedCommand("left");
   }
 
   if (key === 's') {
-      connection.write("Move: down");
+    sendDelayedCommand("down");
   }
 
   if (key === 'd') {
-      connection.write("Move: right");
+    sendDelayedCommand("right");
   }
 
   if (key === 'm') {
     connection.write("Say: i am a snek");
   }
-
-
 
   // exits game when ctrl + c is pressed
   if (key === '\u0003') {
