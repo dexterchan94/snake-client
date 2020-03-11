@@ -8,11 +8,11 @@ const connect = () => {
 
   conn.on("connect", () => {
     console.log("Successfully connected to the game server");
+    conn.write("Name: DEX");
+    // conn.write("Move: up");
   });
 
-  conn.on('connect', () => {
-    conn.write("Name: DEX");
-  });
+
 
   conn.on("data", (data) => {
     console.log("Server says: ", data);
