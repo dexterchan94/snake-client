@@ -6,9 +6,19 @@ const connect = () => {
     port: 50541
   });
 
+  conn.on("connect", () => {
+    console.log("Successfully connected to the game server");
+  });
+
+  conn.on('connect', () => {
+    conn.write("Name: DEX");
+  });
+
   conn.on("data", (data) => {
     console.log("Server says: ", data);
   });
+
+  
 
   conn.setEncoding("utf8");
 
